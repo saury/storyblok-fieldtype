@@ -1,19 +1,19 @@
 <template>
   <div>
-    Google snippet preview:
-    <div class="p-metatags__preview">
-      <div class="p-metatags__google-title">{{ model.title || 'Your title' }}</div>
-      <div class="p-metatags__google-link">yoursite.com/example</div>
-      <div class="p-metatags__google-description">{{ model.description || 'Your description' }}</div>
+    <div class="grid">
+      <div class="row" v-for="(row, r_idx) in 16" :key="r_idx">
+        <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
+      </div>
     </div>
-    <div class="uk-form-row">
-      <label>Meta Title</label>
-      <input type="text" placeholder="Your title" v-model="model.title" class="uk-width-1-1">
+    <div>
+      column start: <input class="uk-width-1-1" v-model="model.c_start" />
     </div>
-
-    <div class="uk-form-row">
-      <label>Meta description</label>
-      <textarea rows="4" placeholder="Your description" v-model="model.description" class="uk-width-1-1"></textarea>
+    <div>row start: <input class="uk-width-1-1" v-model="model.r_start" /></div>
+    <div>row end: <input class="uk-width-1-1" v-model="model.r_end" /></div>
+    <div>column end: <input class="uk-width-1-1" v-model="model.c_end" /></div>
+    <div>
+      image uploader
+      <input type="file" class="uk-width-1-1" />
     </div>
   </div>
 </template>
@@ -25,41 +25,39 @@ export default {
     initWith() {
       return {
         // needs to be equal to your storyblok plugin name
-        plugin: 'my-plugin-name',
+        plugin: 'grid-test',
         title: '',
-        description: ''
-      }
+        description: '',
+        row: 16,
+        column: 9
+      };
     },
     pluginCreated() {
       // eslint-disable-next-line
-      console.log('View source and customize: https://github.com/storyblok/storyblok-fieldtype')
+      console.log(
+        'View source and customize: https://github.com/storyblok/storyblok-fieldtype'
+      );
     }
   },
   watch: {
-    'model': {
-      handler: function (value) {
+    model: {
+      handler: function(value) {
         this.$emit('changed-model', value);
       },
       deep: true
     }
   }
-}
+};
 </script>
 
 <style>
-  .p-metatags__google-title {
-    color: blue;
-    text-decoration: underline;
-  }
-
-  .p-metatags__google-link {
-    color: green;
-  }
-
-  .p-metatags__preview {
-    margin: 5px 0 15px;
-    padding: 10px;
-    color: #000;
-    background: #FFF;
-  }
+.grid {
+  display: flex;
+}
+.cell {
+  width: 12px;
+  height: 12px;
+  margin: 2px;
+  background: #ddd;
+}
 </style>
