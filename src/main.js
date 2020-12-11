@@ -1,16 +1,19 @@
-import Plugin from './Plugin.vue'
+import Plugin from './Plugin.vue';
+import VueDraggableResizable from 'vue-draggable-resizable';
+import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
 
 if (process.env.NODE_ENV == 'development') {
-
-  window.Fieldtype = Plugin
+  window.Fieldtype = Plugin;
   let customComp = window.Storyblok.vue.extend(window.Fieldtype);
   window.Storyblok.vue.component('custom-plugin', customComp);
+
   window.StoryblokPluginRegistered = true;
-
 } else {
-  
-  let init = Plugin.methods.initWith() 
-  window.storyblok.field_types[init.plugin] = Plugin
-
+  let init = Plugin.methods.initWith();
+  window.storyblok.field_types[init.plugin] = Plugin;
 }
 
+window.Storyblok.vue.component(
+  'vue-draggable-resizable',
+  VueDraggableResizable
+);
