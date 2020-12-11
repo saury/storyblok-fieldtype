@@ -1,5 +1,8 @@
 module.exports = {
   configureWebpack: {
+    externals: {
+      vue: 'window.Storyblok.vue'
+    },
     output: {
       filename: 'export.js'
     },
@@ -13,4 +16,4 @@ module.exports = {
   css: {
     extract: false
   }
-}
+};
