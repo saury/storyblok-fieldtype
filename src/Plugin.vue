@@ -1,20 +1,29 @@
 <template>
   <div>
-    <div class="grid">
-      <div class="row" v-for="(row, r_idx) in 16" :key="r_idx">
-        <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
+    <div class="wrapper">
+      <div class="title">Preview:</div>
+      <div class="grid">
+        <div class="row" v-for="(row, r_idx) in 16" :key="r_idx">
+          <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
+        </div>
+        <vue-draggable-resizable
+          :w="model.width"
+          :h="model.height"
+          :x="model.x"
+          :y="model.y"
+          @dragging="onDrag"
+          @resizing="onResize"
+          :parent="true"
+        >
+          <span
+            :style="{ fontSize: model.size + 'px' }"
+            v-html="model.text"
+          ></span>
+        </vue-draggable-resizable>
       </div>
     </div>
-    <div>
-      column start: <input class="uk-width-1-1" v-model="model.c_start" />
-    </div>
-    <div>row start: <input class="uk-width-1-1" v-model="model.r_start" /></div>
-    <div>row end: <input class="uk-width-1-1" v-model="model.r_end" /></div>
-    <div>column end: <input class="uk-width-1-1" v-model="model.c_end" /></div>
-    <div>
-      image uploader
-      <input type="file" class="uk-width-1-1" />
-    </div>
+    <div>Text: <input class="uk-width-1-1" v-model="model.text" /></div>
+    <div>Font Size: <vue-slider v-model="model.size" /></div>
   </div>
 </template>
 
@@ -26,11 +35,23 @@ export default {
       return {
         // needs to be equal to your storyblok plugin name
         plugin: 'grid-test',
-        title: '',
-        description: '',
-        row: 16,
-        column: 9
+        text: 'Input your text',
+        width: 160,
+        height: 40,
+        x: 0,
+        y: 0,
+        size: 24
       };
+    },
+    onResize: function(x, y, width, height) {
+      this.model.x = x;
+      this.model.y = y;
+      this.model.width = width;
+      this.model.height = height;
+    },
+    onDrag: function(x, y) {
+      this.model.x = x;
+      this.model.y = y;
     },
     pluginCreated() {
       // eslint-disable-next-line
@@ -52,12 +73,15 @@ export default {
 
 <style>
 .grid {
-  display: flex;
+  display: inline-flex;
+  border: 1px solid #ccc;
+  position: relative;
 }
 .cell {
-  width: 12px;
-  height: 12px;
-  margin: 2px;
-  background: #ddd;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background: #fff;
 }
 </style>
