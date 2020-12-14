@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="wrapper">
-      <div class="title">Preview:</div>
+      <p>Preview:</p>
       <div class="grid">
         <div class="row" v-for="(row, r_idx) in 16" :key="r_idx">
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
@@ -22,14 +22,11 @@
         </vue-draggable-resizable>
       </div>
     </div>
-    <div>Text: <input class="uk-width-1-1" v-model="model.text" /></div>
-    <p>
-      Font Size:
-    </p>
+    <p>Text:</p>
+    <input class="uk-width-1-1" v-model="model.text" />
+    <p>Font Size:</p>
     <vue-slider :contained="true" :min="1" v-model="model.size" />
-    <p>
-      Line Height:
-    </p>
+    <p>Line Height:</p>
     <vue-slider
       :contained="true"
       :min="1"
