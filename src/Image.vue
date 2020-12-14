@@ -7,6 +7,7 @@
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
         </div>
         <vue-draggable-resizable
+          v-if="model.image"
           :w="model.width"
           :h="model.height"
           :x="model.x"
@@ -15,43 +16,37 @@
           @resizing="onResize"
           :parent="true"
         >
-          <span
-            :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
-            v-html="model.text"
-          ></span>
+          <img
+            :style="{ width: model.width + 'px' }"
+            :src="model.image"
+            class="uploaded-image"
+          />
         </vue-draggable-resizable>
       </div>
     </div>
-    <p>Text:</p>
-    <input class="uk-width-1-1" v-model="model.text" />
-    <p>Font Size:</p>
-    <vue-slider :contained="true" :min="1" v-model="model.size" />
-    <p>Line Height:</p>
-    <vue-slider
-      :contained="true"
-      :min="1"
-      :max="50"
-      v-model="model.lh"
-      :tooltip-formatter="value => value / 10"
-    />
+    <p>Image:</p>
+    <sb-asset-selector :uid="uid" field="image"> </sb-asset-selector>
   </div>
 </template>
 
 <script>
 export default {
   mixins: [window.Storyblok.plugin],
+  provide() {
+    return {
+      plugin: this
+    };
+  },
   methods: {
     initWith() {
       return {
         // needs to be equal to your storyblok plugin name
-        plugin: 'grid-test',
-        text: 'Input your text',
+        plugin: 'draggable-resizable-image',
         width: 160,
         height: 40,
         x: 0,
         y: 0,
-        size: 24,
-        lh: 18
+        image: ''
       };
     },
     onResize: function(x, y, width, height) {
@@ -94,5 +89,10 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ccc;
   background: #fff;
+}
+.uploaded-image {
+  height: auto;
+  display: block;
+  margin: 0;
 }
 </style>
