@@ -16,14 +16,27 @@
           :parent="true"
         >
           <span
-            :style="{ fontSize: model.size + 'px' }"
+            :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
             v-html="model.text"
           ></span>
         </vue-draggable-resizable>
       </div>
     </div>
     <div>Text: <input class="uk-width-1-1" v-model="model.text" /></div>
-    <div>Font Size: <vue-slider v-model="model.size" /></div>
+    <p>
+      Font Size:
+    </p>
+    <vue-slider :contained="true" :min="1" v-model="model.size" />
+    <p>
+      Line Height:
+    </p>
+    <vue-slider
+      :contained="true"
+      :min="1"
+      :max="50"
+      v-model="model.lh"
+      :tooltip-formatter="value => value / 10"
+    />
   </div>
 </template>
 
@@ -40,7 +53,8 @@ export default {
         height: 40,
         x: 0,
         y: 0,
-        size: 24
+        size: 24,
+        lh: 18
       };
     },
     onResize: function(x, y, width, height) {
