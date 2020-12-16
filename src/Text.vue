@@ -14,11 +14,9 @@
           @dragging="onDrag"
           @resizing="onResize"
           :parent="true"
+          :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
         >
-          <span
-            :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
-            v-html="model.text"
-          ></span>
+          <span v-html="model.text"></span>
         </vue-draggable-resizable>
       </div>
     </div>
