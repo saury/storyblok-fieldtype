@@ -2,7 +2,7 @@
   <div>
     <div class="wrapper">
       <p>Preview:</p>
-      <div class="grid">
+      <div class="grid" ref="scale">
         <div class="row" v-for="(row, r_idx) in 16" :key="r_idx">
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
         </div>
@@ -38,6 +38,15 @@
 <script>
 export default {
   mixins: [window.Storyblok.plugin],
+  mounted() {
+    this.onWindwoResize();
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onWindwoResize);
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onWindwoResize);
+  },
   methods: {
     initWith() {
       return {
@@ -67,6 +76,14 @@ export default {
       console.log(
         'View source and customize: https://github.com/storyblok/storyblok-fieldtype'
       );
+    },
+    onWindwoResize() {
+      const scale = (window.innerWidth - 20) / 290;
+      if (scale <= 1) {
+        return;
+      }
+      this.$refs.scale.style.transform = `scale(${scale})`;
+      this.$refs.scale.style.marginBottom = `${164 * (scale - 1)}px`;
     }
   },
   watch: {
@@ -85,6 +102,7 @@ export default {
   display: inline-flex;
   border: 1px solid #ccc;
   position: relative;
+  transform-origin: left top;
 }
 .cell {
   width: 18px;
