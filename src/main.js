@@ -5,8 +5,21 @@ import 'vue-slider-component/theme/antd.css';
 
 import Text from './Text.vue';
 import Image from './Image.vue';
+import Lottie from './Lottie.vue';
 
-const targetPlugin = process.env.VUE_APP_PLUGIN === 'image' ? Image : Text;
+// const targetPlugin = process.env.VUE_APP_PLUGIN === 'image' ? Image : Text;
+let targetPlugin;
+switch (process.env.VUE_APP_PLUGIN) {
+  case 'image':
+    targetPlugin = Image;
+    break;
+  case 'lottie':
+    targetPlugin = Lottie;
+    break;
+  default:
+    targetPlugin = Text;
+    break;
+}
 
 if (process.env.NODE_ENV == 'development') {
   window.Fieldtype = targetPlugin;
