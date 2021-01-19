@@ -7,6 +7,7 @@
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
         </div>
         <vue-draggable-resizable
+          v-if="model.image"
           :w="model.width"
           :h="model.height"
           :x="model.x"
@@ -14,37 +15,24 @@
           @dragging="onDrag"
           @resizing="onResize"
           :parent="true"
-          :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
         >
-          <div ref="animation"></div>
+          <img
+            :style="{ width: model.width + 'px' }"
+            :src="model.image"
+            class="uploaded-image"
+          />
         </vue-draggable-resizable>
       </div>
     </div>
-    <p>Lottie options:</p>
-
-    <!-- <vue-slider
-      :contained="true"
-      :min="1"
-      :max="50"
-      v-model="model.lh"
-      :tooltip-formatter="value => value / 10"
-    /> -->
+    <p>Image:</p>
+    <sb-asset-selector :uid="uid" field="image"> </sb-asset-selector>
   </div>
 </template>
 
 <script>
-import lottie from 'lottie-web';
 export default {
   mixins: [window.Storyblok.plugin],
   mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.animation,
-      // loop: this.model.loop,
-      // autoplay: this.model.autoPlay,
-      path:
-        'https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json'
-    });
-
     this.onWindwoResize();
     this.$nextTick(() => {
       window.addEventListener('resize', this.onWindwoResize);
@@ -53,17 +41,21 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.onWindwoResize);
   },
+  provide() {
+    return {
+      plugin: this
+    };
+  },
   methods: {
     initWith() {
       return {
         // needs to be equal to your storyblok plugin name
-        plugin: 'draggable-resizable-text',
-        width: 80,
-        height: 80,
+        plugin: 'draggable-resizable-image',
+        width: 160,
+        height: 40,
         x: 0,
         y: 0,
-        loop: true,
-        autoplay: true
+        image: ''
       };
     },
     onResize: function(x, y, width, height) {
@@ -115,5 +107,10 @@ export default {
   box-sizing: border-box;
   border: 1px solid #ccc;
   background: #fff;
+}
+.uploaded-image {
+  height: auto;
+  display: block;
+  margin: 0;
 }
 </style>

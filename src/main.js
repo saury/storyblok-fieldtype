@@ -5,13 +5,16 @@ import 'vue-slider-component/theme/antd.css';
 
 import Text from './Text.vue';
 import Image from './Image.vue';
+import Audio from './Audio.vue';
 import Lottie from './Lottie.vue';
 
-// const targetPlugin = process.env.VUE_APP_PLUGIN === 'image' ? Image : Text;
 let targetPlugin;
 switch (process.env.VUE_APP_PLUGIN) {
   case 'image':
     targetPlugin = Image;
+    break;
+  case 'audio':
+    targetPlugin = Audio;
     break;
   case 'lottie':
     targetPlugin = Lottie;
