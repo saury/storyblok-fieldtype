@@ -5027,10 +5027,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
 
-lottie-web@^5.7.5:
-  version "5.7.5"
-  resolved "https://registry.npm.taobao.org/lottie-web/download/lottie-web-5.7.5.tgz?cache=0&sync_timestamp=1607393043718&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flottie-web%2Fdownload%2Flottie-web-5.7.5.tgz#92d72de9d94c733ac21ce613a5f3fc21ebe3f92c"
-  integrity sha1-ktct6dlMczrCHOYTpfP8Ievj+Sw=
+lottie-web@^5.5.2:
+  version "5.7.6"
+  resolved "https://registry.npm.taobao.org/lottie-web/download/lottie-web-5.7.6.tgz#f20e5555ff120dc1e07ba53adb40061e822f3c48"
+  integrity sha1-8g5VVf8SDcHge6U620AGHoIvPEg=
 
 lower-case@^1.1.1:
   version "1.1.4"
@@ -8049,6 +8049,14 @@ vue-loader@^15.7.0:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
+vue-lottie-web@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.npm.taobao.org/vue-lottie-web/download/vue-lottie-web-0.0.3.tgz#635fc61aa8415a73f1759f6f5c93adc30cb3af5d"
+  integrity sha1-Y1/GGqhBWnPxdZ9vXJOtwwyzr10=
+  dependencies:
+    lottie-web "^5.5.2"
+    vue "^2.5.11"
+
 vue-property-decorator@^8.0.0:
   version "8.5.1"
   resolved "https://registry.npm.taobao.org/vue-property-decorator/download/vue-property-decorator-8.5.1.tgz#571a91cf8d2b507f537d79bf8275af3184572fff"
@@ -8085,7 +8093,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue@^2.5.2:
+vue@^2.5.11, vue@^2.5.2:
   version "2.6.12"
   resolved "https://registry.npm.taobao.org/vue/download/vue-2.6.12.tgz#f5ebd4fa6bd2869403e29a896aed4904456c9123"
   integrity sha1-9evU+mvShpQD4pqJau1JBEVskSM=

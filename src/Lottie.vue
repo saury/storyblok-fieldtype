@@ -16,35 +16,45 @@
           :parent="true"
           :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
         >
-          <div ref="animation"></div>
+          <lottie
+            v-if="model.path"
+            renderer="svg"
+            :loop="model.loop"
+            :autoplay="model.autoplay"
+            :path="model.path"
+            @getLottieInstance="getLottieInstance"
+          />
         </vue-draggable-resizable>
       </div>
     </div>
-    <p>Lottie options:</p>
-
-    <!-- <vue-slider
-      :contained="true"
-      :min="1"
-      :max="50"
-      v-model="model.lh"
-      :tooltip-formatter="value => value / 10"
-    /> -->
+    <p>Lottie Source:</p>
+    <sb-asset-selector :uid="uid" field="path"> </sb-asset-selector>
+    <div v-if="model.path">
+      <p>Speed:</p>
+      <vue-slider
+        :contained="true"
+        :min="1"
+        :max="20"
+        v-model="model.speed"
+        :tooltip-formatter="value => value / 10"
+        @change="speedChange"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import lottie from 'lottie-web';
-export default {
-  mixins: [window.Storyblok.plugin],
-  mounted() {
-    lottie.loadAnimation({
-      container: this.$refs.animation,
-      // loop: this.model.loop,
-      // autoplay: this.model.autoPlay,
-      path:
-        'https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json'
-    });
+import Lottie from 'vue-lottie-web';
 
+export default {
+  components: { Lottie },
+  mixins: [window.Storyblok.plugin],
+  data() {
+    return {
+      lottieInstance: ''
+    };
+  },
+  mounted() {
     this.onWindwoResize();
     this.$nextTick(() => {
       window.addEventListener('resize', this.onWindwoResize);
@@ -53,6 +63,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.onWindwoResize);
   },
+
   methods: {
     initWith() {
       return {
@@ -63,7 +74,11 @@ export default {
         x: 0,
         y: 0,
         loop: true,
-        autoplay: true
+        autoplay: true,
+        speed: 10,
+        // path:
+        //   'https://assets9.lottiefiles.com/datafiles/MUp3wlMDGtoK5FK/data.json'
+        path: ''
       };
     },
     onResize: function(x, y, width, height) {
@@ -82,6 +97,12 @@ export default {
         'View source and customize: https://github.com/storyblok/storyblok-fieldtype'
       );
     },
+    speedChange(value) {
+      if (!this.lottieInstance) {
+        return;
+      }
+      this.lottieInstance.setSpeed(value / 10);
+    },
     onWindwoResize() {
       const scale = (window.innerWidth - 20) / 290;
       if (scale <= 1) {
@@ -89,6 +110,9 @@ export default {
       }
       this.$refs.scale.style.transform = `scale(${scale})`;
       this.$refs.scale.style.marginBottom = `${164 * (scale - 1)}px`;
+    },
+    getLottieInstance(lottieInstance) {
+      this.lottieInstance = lottieInstance;
     }
   },
   watch: {
