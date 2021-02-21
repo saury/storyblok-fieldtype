@@ -7,6 +7,7 @@
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
         </div>
         <vue-draggable-resizable
+          v-if="model.path"
           :w="model.width"
           :h="model.height"
           :x="model.x"
@@ -17,7 +18,6 @@
           :style="{ fontSize: model.size + 'px', lineHeight: model.lh / 10 }"
         >
           <lottie
-            v-if="model.path"
             renderer="svg"
             :loop="model.loop"
             :autoplay="model.autoplay"
