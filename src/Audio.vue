@@ -7,7 +7,7 @@
           <div class="cell" v-for="(cell, c_idx) in 9" :key="c_idx"></div>
         </div>
         <vue-draggable-resizable
-          v-if="model.image"
+          v-if="model.audio"
           :w="model.width"
           :h="model.height"
           :x="model.x"
@@ -16,16 +16,20 @@
           @resizing="onResize"
           :parent="true"
         >
-          <img
-            :style="{ width: model.width + 'px' }"
-            :src="model.image"
-            class="uploaded-image"
-          />
+          <audio v-if="model.controls" style="height: 40px;" controls muted>
+            <source :src="model.audio" />
+            Your browser does not support the audio element.
+          </audio>
+          <div class="play" v-else></div>
         </vue-draggable-resizable>
       </div>
     </div>
-    <p>Image:</p>
-    <sb-asset-selector :uid="uid" field="image"> </sb-asset-selector>
+    <p>Audio:</p>
+    <sb-asset-selector :uid="uid" field="audio"> </sb-asset-selector>
+    <label class="uk-display-block uk-margin-top">
+      <input class="uk-checkbox" type="checkbox" v-model="model.controls" />
+      With Controls
+    </label>
   </div>
 </template>
 
@@ -50,12 +54,13 @@ export default {
     initWith() {
       return {
         // needs to be equal to your storyblok plugin name
-        plugin: 'draggable-resizable-image',
-        width: 160,
-        height: 40,
+        plugin: 'draggable-resizable-audio',
+        width: 200,
+        height: 50,
         x: 0,
         y: 0,
-        image: ''
+        audio: '',
+        controls: true
       };
     },
     onResize: function(x, y, width, height) {
@@ -112,5 +117,55 @@ export default {
   height: auto;
   display: block;
   margin: 0;
+}
+
+.play {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 12px solid #2c3e50;
+  margin: 10px auto 10px auto;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s;
+  left: 2px;
+}
+.play:before {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -23px;
+  bottom: -15px;
+  right: -7px;
+  border-radius: 50%;
+  border: 2px solid #2c3e50;
+  z-index: 2;
+  transition: all 0.3s;
+}
+.play:after {
+  content: '';
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+.play:hover:before,
+.play:focus:before {
+  transform: scale(1.1);
+}
+.play.active {
+  border-color: transparent;
+}
+.play.active:after {
+  content: '';
+  opacity: 1;
+  width: 10px;
+  height: 16px;
+  background: #2c3e50;
+  position: absolute;
+  right: 1px;
+  top: -8px;
+  border-left: 4px solid #2c3e50;
+  box-shadow: inset 6px 0 0 0 #f9f9f9;
 }
 </style>
