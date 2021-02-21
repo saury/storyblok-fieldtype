@@ -68,7 +68,7 @@ export default {
     initWith() {
       return {
         // needs to be equal to your storyblok plugin name
-        plugin: 'draggable-resizable-text',
+        plugin: 'draggable-resizable-lottie',
         width: 80,
         height: 80,
         x: 0,
