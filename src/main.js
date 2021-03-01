@@ -5,7 +5,7 @@ import 'vue-slider-component/theme/antd.css';
 
 import Text from './Text.vue';
 import Image from './Image.vue';
-import Audio from './Audio.vue';
+import Video from './Video.vue';
 import Lottie from './Lottie.vue';
 
 let targetPlugin;
@@ -15,6 +15,9 @@ switch (process.env.VUE_APP_PLUGIN) {
     break;
   case 'audio':
     targetPlugin = Audio;
+    break;
+  case 'video':
+    targetPlugin = Video;
     break;
   case 'lottie':
     targetPlugin = Lottie;
